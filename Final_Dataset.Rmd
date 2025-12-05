@@ -1,0 +1,62 @@
+---
+title: "DATA 550 Final Project"
+author: "Danielle Hawk"
+date: "2025-10-09"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+##Loading Packages, setting Project Root, importing .csv file and cleaning data
+
+library(here)
+library(gtsummary)
+```
+
+
+```{r load-data, include = FALSE}
+here::i_am("Final_Dataset.rmd")
+
+COVID <- readRDS("raw_data/COVID.Rds")
+
+```
+
+The dataset I have chosen is the 'Examination of SARS-CoV-2 serological test results from multiple commercial and laboratory platforms with an in-house serum panel'. Since SARS-CoV-2 is a nationally notifiable disease, and we saw the effects of the pandemic in the United States and the rest of the world, diagnostic testing is very important. Conducting a correlation analysis to compare the diagnostic accuracy (explore sensitvity and specificity) might shed some light on which of the 3 tests is truly superior.
+Below is a summary table I created to illustrate the distribution of the reactivity of these tests in comparison to the gold standard PCR.
+```{r, echo=FALSE}
+
+table(COVID$PCR.confirmed)
+
+
+reactivity_table <- tbl_summary(
+  COVID,
+  by = PCR.confirmed,
+  include = c(Sample.., PCR.confirmed, Abbott.Reactivity, Ortho.Reactivity, In.House.CDC.ELISA.Reactivity),
+  label = list(Sample.. ~ "Sample number",
+               Abbott.Reactivity ~ "Reactivity of the Abbott Tests",
+               Ortho.Reactivity ~ "Reactivity of the Ortho Tests",
+               In.House.CDC.ELISA.Reactivity ~ "Reactivity of the CDC ELISA Test"),
+  missing = "no")
+
+reactivity_table <- reactivity_table|>
+  modify_caption("Table 1: The distribution of the reactivity of the Abbott and Ortho Tests in comparison to the gold standard ELISA")
+
+reactivity_table
+```
+
+Creating a figure that displays how the tests' reactivities compare
+```{r, echo=FALSE}
+
+reactivity_plot <- boxplot(
+  list(
+    Abbott = COVID$Abbott.S.C.Values,
+    Ortho = COVID$Ortho.Index.Values,
+    CDC_ELISA = COVID$In.House.CDC.ELISA.S.T.Values),
+  main = "Boxplot Showing Reactivity of COVID Diagnostic Tests",
+  xlab = "Types of Diagnostic Tests",
+  ylab = "Reactivity",
+  col = c("green", "violet", "brown")
+)
+
+```

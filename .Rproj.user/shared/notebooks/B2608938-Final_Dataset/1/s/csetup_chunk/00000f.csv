@@ -1,0 +1,6 @@
+"0","knitr::opts_chunk$set(echo = TRUE)"
+"0",""
+"0","##Loading Packages, setting Project Root, importing .csv file and cleaning data"
+"0",""
+"0","library(here)"
+"0","library(gtsummary)"
