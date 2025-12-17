@@ -1,9 +1,11 @@
 library(gtsummary)
 
-here::i_am("code/02_reactivity_table.R")
+here::i_am("code/01_reactivity_table.R")
 
 #Determining number of positive and negative tests
-
+COVID <- readRDS(
+  here::here("raw_data/COVID.rds")
+)
 table(COVID$PCR.confirmed)
 
 #Creating a gtsummary table to illustrate the distribution of the reactivity of these tests in comparison to the gold standard PCR

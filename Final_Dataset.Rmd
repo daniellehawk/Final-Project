@@ -2,7 +2,7 @@
 title: "DATA 550 Final Project"
 author: "Danielle Hawk"
 date: "2025-10-09"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}

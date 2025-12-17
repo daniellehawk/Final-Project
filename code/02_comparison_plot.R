@@ -1,4 +1,8 @@
-here::i_am("code/03_comparison_plot.R")
+here::i_am("code/02_comparison_plot.R")
+
+COVID <- readRDS(
+  here::here("raw_data/COVID.rds")
+)
 
 reactivity_plot <- boxplot(
   list(
